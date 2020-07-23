@@ -5,10 +5,67 @@ import java.awt.Graphics;
 public class Bullet {
 	private static final int SPEED = 20;
 	private static int WIDTH = ResourceMgr.bulletD.getWidth();
+	private boolean living = true;
+	public static int getWIDTH() {
+		return WIDTH;
+	}
+
+
+
+
+	public static void setWIDTH(int wIDTH) {
+		WIDTH = wIDTH;
+	}
+
+
+
+
+	public static int getHEIGHT() {
+		return HEIGHT;
+	}
+
+
+
+
+	public static void setHEIGHT(int hEIGHT) {
+		HEIGHT = hEIGHT;
+	}
+
+
+
+
 	private static int HEIGHT = ResourceMgr.bulletD.getHeight();
 	private int x, y;
+	public int getX() {
+		return x;
+	}
+
+
+
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+
+
+
+	public int getY() {
+		return y;
+	}
+
+
+
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+
+
+
 	private Dir dir;
-	public boolean live = true;
+	public boolean inside = true;
 	TankFrame tf = null;
 	
 	
@@ -25,25 +82,27 @@ public class Bullet {
 	
 	
 	public void paint(Graphics g) {
-		
-		if(!live) {
-			tf.bullets.remove(this);
+
+			if(!inside) {
+				tf.bullets.remove(this);
+			}
+		if(living) {
+			switch(dir) {
+			case LEFT:
+				g.drawImage(ResourceMgr.bulletL, x, y, null);
+				break;
+			case RIGHT:
+				g.drawImage(ResourceMgr.bulletR, x, y, null);
+				break;
+			case UP:
+				g.drawImage(ResourceMgr.bulletU, x, y, null);
+				break;
+			case DOWN:
+				g.drawImage(ResourceMgr.bulletD, x, y, null);
+				break;
+			}
+			move();
 		}
-		switch(dir) {
-		case LEFT:
-			g.drawImage(ResourceMgr.bulletL, x, y, null);
-			break;
-		case RIGHT:
-			g.drawImage(ResourceMgr.bulletR, x, y, null);
-			break;
-		case UP:
-			g.drawImage(ResourceMgr.bulletU, x, y, null);
-			break;
-		case DOWN:
-			g.drawImage(ResourceMgr.bulletD, x, y, null);
-			break;
-		}
-		move();
 	}
 	
 	
@@ -65,6 +124,14 @@ public class Bullet {
 			y += SPEED;
 			break;
 		}
-		if(x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) live = false;
+		if(x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) inside = false;
+	}
+
+
+
+
+	public void die() {
+		this.living = false;
+		tf.bullets.remove(this);
 	}
 }
