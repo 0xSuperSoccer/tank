@@ -1,20 +1,22 @@
 package com.ssoccer.tank;
 
-import java.awt.Color;
 import java.awt.Graphics;
 
 public class Bullet {
 	private static final int SPEED = 20;
-	private static int WIDTH = 5, HEIGHT = 5;
+	private static int WIDTH = ResourceMgr.bulletD.getWidth();
+	private static int HEIGHT = ResourceMgr.bulletD.getHeight();
 	private int x, y;
 	private Dir dir;
 	public boolean live = true;
 	TankFrame tf = null;
 	
 	
+	
+	//子弹构造方法
 	public Bullet(int x, int y, Dir dir, TankFrame tf) {
-		this.x = x + Tank.width/2 - WIDTH/2 - 3;
-		this.y = y + Tank.height/2 - HEIGHT/2;
+		this.x = x + Tank.width/2 - WIDTH/2;
+		this.y = y + Tank.height/2 - HEIGHT/2 + 3;
 		this.dir = dir;
 		this.tf = tf;
 	}
@@ -27,8 +29,6 @@ public class Bullet {
 		if(!live) {
 			tf.bullets.remove(this);
 		}
-		
-		
 		switch(dir) {
 		case LEFT:
 			g.drawImage(ResourceMgr.bulletL, x, y, null);
@@ -43,7 +43,6 @@ public class Bullet {
 			g.drawImage(ResourceMgr.bulletD, x, y, null);
 			break;
 		}
-		
 		move();
 	}
 	
@@ -66,7 +65,6 @@ public class Bullet {
 			y += SPEED;
 			break;
 		}
-		
 		if(x < 0 || y < 0 || x > TankFrame.GAME_WIDTH || y > TankFrame.GAME_HEIGHT) live = false;
 	}
 }

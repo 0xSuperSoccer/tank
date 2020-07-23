@@ -105,7 +105,6 @@ public class Tank {
 			g.drawImage(ResourceMgr.tankD, x, y, null);
 			break;
 		}
-		
 		move();
 	}
 	
