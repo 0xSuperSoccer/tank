@@ -159,27 +159,36 @@ public class TankFrame extends Frame{
 		
 		
 		private void setMainTankDir(){
-			int x = myTank.getX();
-			int y = myTank.getY();
+//			int x = myTank.getX();
+//			int y = myTank.getY();
+//			if(!bL && !bU && !bD && !bR) myTank.setMoving(false);
+//			else {
+//				myTank.setMoving(true);
+//				if(bL) {
+//					myTank.setDir(Dir.LEFT);
+//					myTank.setX(x -= Tank.getSpeed());
+//				}
+//				if(bU) {
+//					myTank.setDir(Dir.UP);
+//					myTank.setY(y -= Tank.getSpeed());
+//				}
+//				if(bD) {
+//					myTank.setDir(Dir.DOWN);
+//					myTank.setY(y += Tank.getSpeed());
+//				}
+//				if(bR) {
+//					myTank.setDir(Dir.RIGHT);
+//					myTank.setX(x += Tank.getSpeed());
+//				}
+//			}
+			
 			if(!bL && !bU && !bD && !bR) myTank.setMoving(false);
 			else {
 				myTank.setMoving(true);
-				if(bL) {
-					myTank.setDir(Dir.LEFT);
-					myTank.setX(x -= Tank.getSpeed());
-				}
-				if(bU) {
-					myTank.setDir(Dir.UP);
-					myTank.setY(y -= Tank.getSpeed());
-				}
-				if(bD) {
-					myTank.setDir(Dir.DOWN);
-					myTank.setY(y += Tank.getSpeed());
-				}
-				if(bR) {
-					myTank.setDir(Dir.RIGHT);
-					myTank.setX(x += Tank.getSpeed());
-				}
+				if(bL) myTank.setDir(Dir.LEFT);
+				if(bR) myTank.setDir(Dir.RIGHT);
+				if(bU) myTank.setDir(Dir.UP);
+				if(bD) myTank.setDir(Dir.DOWN);
 			}
 		}
 	}

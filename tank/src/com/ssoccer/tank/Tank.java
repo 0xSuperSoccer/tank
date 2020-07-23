@@ -46,7 +46,7 @@ public class Tank {
 	
 	
 
-	private static final int SPEED = 10;
+	private static final int SPEED = 5;
 	
 	public static int getSpeed() {
 		return SPEED;
@@ -84,15 +84,33 @@ public class Tank {
 		this.tf = tf;
 	}
 		
+	
+	
+	
+	
+	
 	public void paint(Graphics g) {
 		
-		move();
-		Color c = g.getColor();
-		g.setColor(Color.YELLOW);
-		g.fillRect(x, y, 50, 50);
-		g.setColor(c);
+		switch(dir) {
+		case LEFT:
+			g.drawImage(ResourceMgr.tankL, x, y, null);
+			break;
+		case RIGHT:
+			g.drawImage(ResourceMgr.tankR, x, y, null);
+			break;
+		case UP:
+			g.drawImage(ResourceMgr.tankU, x, y, null);
+			break;
+		case DOWN:
+			g.drawImage(ResourceMgr.tankD, x, y, null);
+			break;
+		}
 		
+		move();
 	}
+	
+	
+	
 	
 	
 	private void move() {
@@ -101,20 +119,25 @@ public class Tank {
 		
 		switch(dir) {
 		case LEFT:
-			x -= 1;
+			x -= SPEED;
 			break;
 		case RIGHT:
-			x += 1;
+			x += SPEED;
 			break;
 		case UP:
-			y -= 1;
+			y -= SPEED;
 			break;
 		case DOWN:
-			y += 1;
+			y += SPEED;
 			break;
 		}		
 	}
 
+	
+	
+	
+	
+	
 	public void fire() {
 		tf.bullets.add(new Bullet(this.x, this.y, this.dir, tf));
 	}

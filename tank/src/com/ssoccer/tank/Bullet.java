@@ -5,7 +5,7 @@ import java.awt.Graphics;
 
 public class Bullet {
 	private static final int SPEED = 20;
-	private static int WIDTH = 15, HEIGHT = 15;
+	private static int WIDTH = 5, HEIGHT = 5;
 	private int x, y;
 	private Dir dir;
 	public boolean live = true;
@@ -28,13 +28,13 @@ public class Bullet {
 			tf.bullets.remove(this);
 		}
 		
-		move();
 		
 		Color c = g.getColor();
 		g.setColor(Color.RED);
 		g.fillOval(x, y, WIDTH, HEIGHT);
 		g.setColor(c);
 		
+		move();
 	}
 	
 	
