@@ -12,9 +12,7 @@ import javax.naming.directory.DirContext;
 
 public class TankFrame extends Frame{
 	
-	int x = 200, y = 200;
-	Dir dir = Dir.DOWN;
-	private static final int SPEED = 10;
+	Tank myTank = new Tank(200, 200, Dir.DOWN);
 	
 	public TankFrame() {
 		setSize(800, 600);
@@ -33,26 +31,12 @@ public class TankFrame extends Frame{
 		});
 	}
 	
-	@Override
 	public void paint(Graphics g) {
 		
-		g.fillRect(x, y, 50, 50);
+		myTank.paint(g);
 		
-		switch(dir) {
-		case LEFT:
-			x -= SPEED;
-			break;
-		case RIGHT:
-			x += SPEED;
-			break;
-		case UP:
-			y -= SPEED;
-			break;
-		case DOWN:
-			y += SPEED;
-			break;
-		}
 	}
+
 
 	class MyKeyListener extends KeyAdapter{
 		
@@ -86,6 +70,8 @@ public class TankFrame extends Frame{
 			setMainTankDir();
 		}
 
+		
+		
 		@Override
 		public void keyReleased(KeyEvent e) {
 			int key = e.getKeyCode();
@@ -111,10 +97,10 @@ public class TankFrame extends Frame{
 		}
 
 		private void setMainTankDir(){
-			if(bL) dir = Dir.LEFT;
-			if(bU) dir = Dir.UP;
-			if(bD) dir = Dir.DOWN;
-			if(bR) dir = Dir.RIGHT;
+			if(bL) myTank.setDir(Dir.LEFT);
+			if(bU) myTank.setDir(Dir.UP);
+			if(bD) myTank.setDir(Dir.DOWN);
+			if(bR) myTank.setDir(Dir.RIGHT);
 		}
 	}
 }
