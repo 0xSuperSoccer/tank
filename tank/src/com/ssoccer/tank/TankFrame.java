@@ -31,6 +31,7 @@ public class TankFrame extends Frame{
 		});
 	}
 	
+	@Override
 	public void paint(Graphics g) {
 		
 		myTank.paint(g);
@@ -67,7 +68,9 @@ public class TankFrame extends Frame{
 			default:
 				break;
 			}
+			
 			setMainTankDir();
+			
 		}
 
 		
@@ -93,14 +96,20 @@ public class TankFrame extends Frame{
 			default:
 				break;
 			}
+			
 			setMainTankDir();
+			
 		}
 
 		private void setMainTankDir(){
-			if(bL) myTank.setDir(Dir.LEFT);
-			if(bU) myTank.setDir(Dir.UP);
-			if(bD) myTank.setDir(Dir.DOWN);
-			if(bR) myTank.setDir(Dir.RIGHT);
+			if(!bL && !bU && !bD && !bR) myTank.setMoving(false);
+			else {
+				myTank.setMoving(true);
+				if(bL) myTank.setDir(Dir.LEFT);
+				if(bU) myTank.setDir(Dir.UP);
+				if(bD) myTank.setDir(Dir.DOWN);
+				if(bR) myTank.setDir(Dir.RIGHT);
+			}
 		}
 	}
 }
