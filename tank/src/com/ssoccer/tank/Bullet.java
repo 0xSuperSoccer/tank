@@ -13,7 +13,7 @@ public class Bullet {
 	
 	
 	public Bullet(int x, int y, Dir dir, TankFrame tf) {
-		this.x = x + Tank.width/2 - WIDTH/2;
+		this.x = x + Tank.width/2 - WIDTH/2 - 3;
 		this.y = y + Tank.height/2 - HEIGHT/2;
 		this.dir = dir;
 		this.tf = tf;
@@ -29,10 +29,20 @@ public class Bullet {
 		}
 		
 		
-		Color c = g.getColor();
-		g.setColor(Color.RED);
-		g.fillOval(x, y, WIDTH, HEIGHT);
-		g.setColor(c);
+		switch(dir) {
+		case LEFT:
+			g.drawImage(ResourceMgr.bulletL, x, y, null);
+			break;
+		case RIGHT:
+			g.drawImage(ResourceMgr.bulletR, x, y, null);
+			break;
+		case UP:
+			g.drawImage(ResourceMgr.bulletU, x, y, null);
+			break;
+		case DOWN:
+			g.drawImage(ResourceMgr.bulletD, x, y, null);
+			break;
+		}
 		
 		move();
 	}
