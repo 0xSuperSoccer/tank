@@ -2,16 +2,34 @@ package com.ssoccer.tank;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 
 public class Tank {
 	
 	public static int width = 50;
 	public static int height = 50;
 	private boolean living = true;
-	
-	
-	
+	private Random random = new Random();
+	private Group group = Group.BAD;
+	private boolean moving = true;
 	private int x,y;
+	private Dir dir = Dir.DOWN;
+	private static final int SPEED = 5;
+	
+	
+	
+	public Group getGroup() {
+		return group;
+	}
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
+
+
+
+
+
 	public int getY() {
 		return y;
 	}
@@ -29,7 +47,6 @@ public class Tank {
 	
 	
 
-	private Dir dir = Dir.DOWN;
 	
 	public Dir getDir() {
 		return dir;
@@ -42,7 +59,6 @@ public class Tank {
 	
 	
 
-	private static final int SPEED = 5;
 	
 	public static int getSpeed() {
 		return SPEED;
@@ -52,7 +68,7 @@ public class Tank {
 	
 	
 	
-	private boolean moving = false;
+
 	
 	public boolean isMoving() {
 		return moving;
@@ -67,16 +83,13 @@ public class Tank {
 	
 	
 	private TankFrame tf = null;
-	
-	
-	
-	
-	
-	public Tank(int x, int y, Dir dir, TankFrame tf) {
+	//Tank类的构造方法
+	public Tank(int x, int y, Dir dir, Group group, TankFrame tf) {
 		super();
 		this.x = x;
 		this.y = y;
 		this.dir = dir;
+		this.group = group;
 		this.tf = tf;
 	}
 		
@@ -125,7 +138,9 @@ public class Tank {
 		case DOWN:
 			y += SPEED;
 			break;
-		}		
+		}
+		
+		if(random.nextInt(100) > 97) this.fire();
 	}
 
 	
@@ -134,13 +149,15 @@ public class Tank {
 	
 	
 	public void fire() {
-		tf.bullets.add(new Bullet(this.x, this.y, this.dir, tf));
+		tf.bullets.add(new Bullet(this.x, this.y, this.dir, this.group, tf));
 	}
 	
 	
 	
 	
 	public void collideWith(Bullet bullet) {
+		if(this.group == bullet.getGroup()) return;
+		
 		Rectangle rect1 = new Rectangle(this.x, this.y, width,height);
 		Rectangle rect2 = new Rectangle(bullet.getX(), bullet.getY(), Bullet.getWIDTH(),Bullet.getHEIGHT());
 		if(rect1.intersects(rect2)) {
@@ -148,6 +165,10 @@ public class Tank {
 			this.die();
 		}
 	}
+	
+	
+	
+	
 	private void die() {
 		this.living = false;
 		tf.tanks.remove(this);

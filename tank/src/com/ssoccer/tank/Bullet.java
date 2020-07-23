@@ -3,6 +3,21 @@ package com.ssoccer.tank;
 import java.awt.Graphics;
 
 public class Bullet {
+	private Group group = Group.BAD;
+	public Group getGroup() {
+		return group;
+	}
+
+
+
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
+
+
+
 	private static final int SPEED = 20;
 	private static int WIDTH = ResourceMgr.bulletD.getWidth();
 	private boolean living = true;
@@ -71,10 +86,11 @@ public class Bullet {
 	
 	
 	//子弹构造方法
-	public Bullet(int x, int y, Dir dir, TankFrame tf) {
+	public Bullet(int x, int y, Dir dir, Group group, TankFrame tf) {
 		this.x = x + Tank.width/2 - WIDTH/2;
 		this.y = y + Tank.height/2 - HEIGHT/2 + 3;
 		this.dir = dir;
+		this.group = group;
 		this.tf = tf;
 	}
 	
