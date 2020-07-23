@@ -9,12 +9,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.plaf.basic.BasicSplitPaneUI.KeyboardEndHandler;
+
 
 
 
 public class TankFrame extends Frame{
 	
-	Tank myTank = new Tank(200, 200, Dir.DOWN);
+	Tank myTank = new Tank(200, 200, Dir.DOWN, this);
 	Bullet b = new Bullet(300, 300, Dir.DOWN);
 	static final int GAME_WIDTH = 1600, GAME_HEIGHT = 1000;
 	
@@ -99,7 +101,12 @@ public class TankFrame extends Frame{
 				break;
 			case KeyEvent.VK_DOWN:
 				bD = true;
-				break;				
+				break;
+				
+			case KeyEvent.VK_CONTROL:
+				myTank.fire();
+				break;
+				
 			default:
 				break;
 			}
