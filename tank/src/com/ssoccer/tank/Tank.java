@@ -5,6 +5,8 @@ import java.awt.Graphics;
 
 public class Tank {
 	
+	public static int width = 50;
+	public static int height = 50;
 	private int x,y;
 	
 	

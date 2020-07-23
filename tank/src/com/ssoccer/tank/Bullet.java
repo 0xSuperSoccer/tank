@@ -13,8 +13,8 @@ public class Bullet {
 	
 	
 	public Bullet(int x, int y, Dir dir, TankFrame tf) {
-		this.x = x;
-		this.y = y;
+		this.x = x + Tank.width/2 - WIDTH/2;
+		this.y = y + Tank.height/2 - HEIGHT/2;
 		this.dir = dir;
 		this.tf = tf;
 	}
