@@ -16,7 +16,7 @@ public class Tank {
 	private Dir dir = Dir.DOWN;
 	private static final int SPEED = 5;
 	
-	
+	Rectangle rect = new Rectangle();
 	
 	public Group getGroup() {
 		return group;
@@ -24,12 +24,6 @@ public class Tank {
 	public void setGroup(Group group) {
 		this.group = group;
 	}
-
-
-
-
-
-
 	public int getY() {
 		return y;
 	}
@@ -42,45 +36,21 @@ public class Tank {
 	public void setX(int x) {
 		this.x = x;
 	}
-	
-	
-	
-	
-
-	
 	public Dir getDir() {
 		return dir;
 	}
-
 	public void setDir(Dir dir) {
 		this.dir = dir;
 	}
-	
-	
-	
-
-	
 	public static int getSpeed() {
 		return SPEED;
 	}
-
-	
-	
-	
-	
-
-	
 	public boolean isMoving() {
 		return moving;
 	}
-
 	public void setMoving(boolean moving) {
 		this.moving = moving;
-	}
-
-	
-	
-	
+	}	
 	
 	private TankFrame tf = null;
 	//Tank类的构造方法
@@ -91,35 +61,32 @@ public class Tank {
 		this.dir = dir;
 		this.group = group;
 		this.tf = tf;
-	}
 		
-	
-	
-	
-	
+		rect.x = this.x;
+		rect.y = this.y;
+		rect.width = width;
+		rect.height = height;
+	}
 	
 	public void paint(Graphics g) {
 		if(living) {
 			switch(dir) {
 			case LEFT:
-				g.drawImage(ResourceMgr.tankL, x, y, null);
+				g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
 				break;
 			case RIGHT:
-				g.drawImage(ResourceMgr.tankR, x, y, null);
+				g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
 				break;
 			case UP:
-				g.drawImage(ResourceMgr.tankU, x, y, null);
+				g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
 				break;
 			case DOWN:
-				g.drawImage(ResourceMgr.tankD, x, y, null);
+				g.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
 				break;
 			}
 			move();
 		}
 	}
-	
-	
-	
 	
 	private void move() {
 		
@@ -140,36 +107,42 @@ public class Tank {
 			break;
 		}
 		
-		if(random.nextInt(100) > 97) this.fire();
+		if(this.group == Group.BAD && random.nextInt(100) > 97)
+			this.fire();
+		
+		if(this.group == Group.BAD && random.nextInt(100) > 95)
+			randomDir();
+		
+		boundsCheck();
+		//update rect
+		rect.x = this.x;
+		rect.y = this.y;
+	}
+	
+	private void boundsCheck() {
+		if(this.x<0)
+			x = 0;
+		if (this.y<=30)
+			y = 30;
+		if (this.x> TankFrame.GAME_WIDTH - Tank.width)
+			x = TankFrame.GAME_WIDTH - Tank.width;
+		if (this.y> TankFrame.GAME_HEIGHT - Tank.height)
+			y = TankFrame.GAME_HEIGHT - Tank.height;
+	}
+	
+	private void randomDir() {
+		this.dir = Dir.values()[random.nextInt(4)];
 	}
 
-	
-	
-	
-	
-	
 	public void fire() {
 		tf.bullets.add(new Bullet(this.x, this.y, this.dir, this.group, tf));
-	}
-	
-	
-	
-	
-	public void collideWith(Bullet bullet) {
-		if(this.group == bullet.getGroup()) return;
 		
-		Rectangle rect1 = new Rectangle(this.x, this.y, width,height);
-		Rectangle rect2 = new Rectangle(bullet.getX(), bullet.getY(), Bullet.getWIDTH(),Bullet.getHEIGHT());
-		if(rect1.intersects(rect2)) {
-			bullet.die();
-			this.die();
-		}
+		if(this.group == Group.GOOD) 
+			new Thread(()->new Audio("audio/tank_fire.wav").play()).start();
 	}
 	
 	
-	
-	
-	private void die() {
+	public void die() {
 		this.living = false;
 		tf.tanks.remove(this);
 	}

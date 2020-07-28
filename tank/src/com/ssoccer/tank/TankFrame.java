@@ -19,9 +19,9 @@ public class TankFrame extends Frame{
 	Tank myTank = new Tank(200, 200, Dir.DOWN, Group.GOOD, this);
 	List<Bullet> bullets = new ArrayList<>();
 	List<Tank> tanks = new ArrayList<>();
-	Explode e = new Explode(100, 100, this);
+	List<Explode> explodes = new ArrayList<>();
 	
-	static final int GAME_WIDTH = 1600, GAME_HEIGHT = 1000;
+	static final int GAME_WIDTH = 1080, GAME_HEIGHT = 800;
 	
 	
 	
@@ -72,6 +72,7 @@ public class TankFrame extends Frame{
 		g.setColor(Color.WHITE);
 		g.drawString("子弹的数量：" + bullets.size(), 10, 60);
 		g.drawString("敌人的数量：" + tanks.size(), 10, 90);
+		g.drawString("爆炸的数量：" + explodes.size(), 10, 120);
 		g.setColor(c);
 		
 		myTank.paint(g);
@@ -81,12 +82,17 @@ public class TankFrame extends Frame{
 		for(int i = 0; i < tanks.size(); i++) {
 			tanks.get(i).paint(g);
 		}
-		for(int i = 0; i < tanks.size(); i++) {
-			for(int j = 0; j < bullets.size(); j++)
-				tanks.get(i).collideWith(bullets.get(j));
+		for(int i = 0; i < explodes.size(); i++) {
+			explodes.get(i).paint(g);
+		}
+
+		for(int i = 0; i < bullets.size(); i++) {
+			for(int j = 0; j < tanks.size(); j++)
+				bullets.get(i).collideWith(tanks.get(j));
 		}
 		
-		e.paint(g);
+		//e.paint(g);
+		
 //		for(Iterator<Bullet> it = bullets.iterator(); it.hasNext();) {
 //			Bullet b = it.next();
 //			if(!b.live) it.remove();
@@ -171,6 +177,14 @@ public class TankFrame extends Frame{
 		
 		
 		private void setMainTankDir(){
+			if(!bL && !bU && !bD && !bR) myTank.setMoving(false);
+			else {
+				myTank.setMoving(true);
+				if(bL) myTank.setDir(Dir.LEFT);
+				if(bR) myTank.setDir(Dir.RIGHT);
+				if(bU) myTank.setDir(Dir.UP);
+				if(bD) myTank.setDir(Dir.DOWN);
+			}
 //			int x = myTank.getX();
 //			int y = myTank.getY();
 //			if(!bL && !bU && !bD && !bR) myTank.setMoving(false);
@@ -194,14 +208,6 @@ public class TankFrame extends Frame{
 //				}
 //			}
 			
-			if(!bL && !bU && !bD && !bR) myTank.setMoving(false);
-			else {
-				myTank.setMoving(true);
-				if(bL) myTank.setDir(Dir.LEFT);
-				if(bR) myTank.setDir(Dir.RIGHT);
-				if(bU) myTank.setDir(Dir.UP);
-				if(bD) myTank.setDir(Dir.DOWN);
-			}
 		}
 	}
 }
